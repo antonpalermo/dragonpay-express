@@ -4,6 +4,10 @@ const app = express();
 
 app.use(express.json());
 
+app.get('/', (_, res) => {
+  res.status(200).send({ message: 'Server okay by Anton' });
+});
+
 app.post('/pay', (req, res, next) => {
   console.log(`REQUEST_BODY: `, req.body);
   console.log(`REQUEST_PARAMS: `, req.params);
