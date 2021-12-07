@@ -22,4 +22,4 @@ app.get('/result', (req, res, next) => {
   next();
 });
 
-app.listen(4000, () => console.log('express running...'));
+app.listen(process.env.PORT | 4000, () => console.log('express running...'));
