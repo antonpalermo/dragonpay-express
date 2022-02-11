@@ -3,16 +3,13 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (_, res) => {
-  res.status(200).send({ message: 'Server okay by Anton' });
-});
+app.post('/payment', (req, res, next) => {
+  console.log(req.body);
 
-app.post('/pay', (req, res, next) => {
-  console.log(`REQUEST_BODY: `, req.body);
-  console.log(`REQUEST_PARAMS: `, req.params);
-  console.log(`REQUEST_QUERY: `, req.query);
-  next();
+  res.setHeader('Content-Type', 'application/json');
+  res.send({ message: 'ok' });
 });
 
 // Express.js server
