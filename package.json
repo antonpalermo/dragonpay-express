@@ -2,14 +2,21 @@
   "name": "dragonpay-express",
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy --minify",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "dev": "wrangler dev --env development",
+    "deploy": "wrangler deploy --minify --env production",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "drizzle:gen": "bun drizzle-kit generate --config drizzle.config.ts",
+    "drizzle:migrate:dev": "NODE_ENV='development' bun drizzle-kit migrate --config drizzle.config.ts"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.1",
+    "drizzle-orm": "^0.44.5",
     "hono": "^4.9.7"
   },
   "devDependencies": {
+    "@types/node": "^24.4.0",
+    "dotenv": "^17.2.2",
+    "drizzle-kit": "^0.31.4",
     "prettier": "^3.6.2",
     "wrangler": "^4.4.0"
   }
