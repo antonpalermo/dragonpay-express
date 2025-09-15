@@ -1,11 +1,9 @@
-import debug from "debug";
+import { Hono } from 'hono'
 
-import App from "./app";
+const app = new Hono()
 
-const logger = debug("core:apis");
+app.get('/', (c) => {
+  return c.text('Hello Hono!')
+})
 
-Bun.serve({
-  fetch: App.fetch,
-});
-
-logger("server started on " + `http://localhost:${process.env.PORT}`);
+export default app
