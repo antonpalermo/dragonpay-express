@@ -1,9 +1,18 @@
 import { Hono } from "hono";
+import { logger } from "hono/logger";
+import { secureHeaders } from "hono/secure-headers";
 
-const app = new Hono<{ Bindings: CloudflareBindings }>();
+import callbackRoute from "./routes/callback";
+import transactionRoute from "./routes/transaction";
 
-app.get("/", c => {
-  return c.text("Hello Hono!");
-});
+const app = new Hono<{ Bindings: CloudflareBindings }>().basePath("/api");
 
-export default app;
+app.use(logger());
+app.use(secureHeaders());
+
+app.route("/callback", callbackRoute);
+app.route("/transactions", transactionRoute);
+
+export default {
+  fetch: app.fetch
+};
