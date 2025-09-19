@@ -1,0 +1,116 @@
+{
+  "id": "2d211109-65a3-4c39-a853-a9be3b9a0d8c",
+  "prevId": "a48d9573-a9d9-47b0-b6e0-70f381228de7",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.transactions": {
+      "name": "transactions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "gen_random_uuid()"
+        },
+        "txnid": {
+          "name": "txnid",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "refno": {
+          "name": "refno",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dateCreated": {
+          "name": "dateCreated",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "dateUpdated": {
+          "name": "dateUpdated",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "txnid_index": {
+          "name": "txnid_index",
+          "columns": [
+            {
+              "expression": "txnid",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "refno_index": {
+          "name": "refno_index",
+          "columns": [
+            {
+              "expression": "refno",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "transactions_txnid_unique": {
+          "name": "transactions_txnid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "txnid"
+          ]
+        },
+        "transactions_refno_unique": {
+          "name": "transactions_refno_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "refno"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

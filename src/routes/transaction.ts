@@ -1,8 +1,7 @@
 import { Hono } from "hono";
-import { customAlphabet } from "nanoid";
+import { HTTPException } from "hono/http-exception";
 
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
+import { customAlphabet } from "nanoid";
 
 const transaction = new Hono<{ Bindings: CloudflareBindings }>();
 const alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -18,7 +17,7 @@ transaction.post("/create", async c => {
   const token = btoa(`${c.env.DP_MERCHANT_ID}:${c.env.DP_MERCHANT_API_KEY}`);
 
   const response = await fetch(
-    `https://test.dragonpay.ph/api/collect/v1/${nanoid()}/post`,
+    `https://${c.env.DP_ENV}.dragonpay.ph/api/collect/v1/${nanoid()}/post`,
     {
       method: "POST",
       headers: {
@@ -29,14 +28,25 @@ transaction.post("/create", async c => {
     }
   );
 
-  const data = await response.json<{
-    refno: string;
-    status: string;
-    message: string;
-    url: string;
-  }>();
+  if (!response.ok) {
+    throw new HTTPException(500, {
+      message: "unable to make request to dragonpay api"
+    });
+  }
 
-  return c.json(data);
+  const data: {
+    RefNo: string;
+    Status: string;
+    Message: string;
+    Url: string;
+  } = await response.json();
+
+  return c.json({
+    refno: data.RefNo,
+    status: data.Status,
+    message: data.Message,
+    url: data.Url
+  });
 });
 
 export default transaction;

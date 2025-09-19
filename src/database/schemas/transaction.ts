@@ -6,6 +6,7 @@ export const transactions = pgTable(
     id: uuid().defaultRandom(),
     txnid: text().unique().notNull(),
     refno: text().unique().notNull(),
+    status: text().notNull(),
     dateCreated: timestamp().defaultNow(),
     dateUpdated: timestamp().$onUpdate(() => new Date())
   },
